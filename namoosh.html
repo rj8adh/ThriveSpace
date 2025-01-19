@@ -1,0 +1,29 @@
+<! REAL CODE FOR YT EMBEDDING -->
+<!DOCTYPE HTML>
+<html>
+    <head> 
+        <meta charset="UTF-8"> <! character encoding -->
+        <meta name="yt" content="width=device-width, initial-scale=1.0"> <! how frame should be viewed, very helpful on mobile -->
+        <title>General YouTube Videos to Help You!</title> <! title -->
+    </head>
+
+    <body>
+        <div id="videoContainer"></div>
+        <script>
+            const videoID = "v=o18I23HCQtE"; // const bc we don't want this to be editted
+            const iFrame = document.createElement("iframe"); // This creates the iframe element
+
+            // iFrame elements/attributes
+            iFrame.src = "https://www.youtube.com/embed/$%7BvideoID%7D"; // url embed
+            iFrame.width = 500;
+            iFrame.height = 500;
+            iFrame.frameBorder = 5;
+            iFrame.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"; // accelometer for orientation everything 
+                                                                                                      // else for decor such as autoplay and pnp
+            iFrame.allowFullscreen = true; // for full screen
+
+            // to append iFrame to the connector
+            document.getElementById("video-container").appendChild(iframe);
+        </script>
+    </body>
+</html>
