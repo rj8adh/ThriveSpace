@@ -99,7 +99,7 @@
         const chatInput = document.getElementById('chatInput');
 
         let conversationHistory = [
-            { role: 'system', content: 'You are a therapy chatbot on a mental health website. You\'re trying to convince the user that today was a good day by using strategies such as trying to elicit good things that happened. The message history will be given to you.' }
+            { role: 'system', content: 'You are an information assistant on on a mental health website, respond to any questions the user asks regarding to mental health. Additionally, you should act as a therapist based on if that\'s what the user is prompting for. The message history will be given to you.' }
         ];
 
         async function sendMessage() {
