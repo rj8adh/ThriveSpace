@@ -2,14 +2,14 @@ def Therapyify(userMessage: str):
     import os
     from openai import OpenAI
     from dotenv import load_dotenv
+    import json
 
     load_dotenv() # will search for .env file in local folder and load variables 
 
     client = OpenAI(api_key=os.getenv('API_KEY'))
 
-    with open('messageHistory.txt', 'r') as file:
-        content = file.read()
-        chatHistory = str(content) if content else ""  # Handle empty file
+    file = open('messageHistory.json', 'r')
+    chatHistory = json.load(file)
     file.close()
 
     def request_API(prompt, tokens: bool = True):
@@ -26,11 +26,12 @@ def Therapyify(userMessage: str):
     therapistResponse = request_API([{"role": "system", "content": f"You are a therapy chatbot on a mental health website. Respond to the following inquiry appropriately: {userMessage}. Use the following message history to respond in context: {chatHistory}"}], False)
 
     # print(therapistResponse)
-    chatHistory.append(therapistResponse)
+    chatHistory.append([{"role": "user", "content": userMessage}])
+    chatHistory.append([{"role": "system", "content":therapistResponse}])
     
-    with open('messageHistory.txt', 'w') as file:
-        file.write(chatHistory)
+    with open('messageHistory.json', 'w') as file:
+        json.dump(chatHistory, file)
     file.close()
     return therapistResponse
 
-print(Therapyify("I'm feeling bored, do you have any way tips to cheer up?"))
+print(Therapyify("I'm bored, do you have any ideas to cheer me up?"))
