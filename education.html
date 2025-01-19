@@ -11,8 +11,12 @@
             background-color: #f8f9fa;
             color: #343a40;
         }
+        .custom-btn {
+            background-color: #660387;
+            color: #fff;
+        }
         .hero {
-            background-color: #6c757d;
+            background-color: #0b9b5a;
             color: white;
             padding: 50px 0;
             text-align: center;
@@ -115,48 +119,53 @@
         <section class="row">
             <div class="col-md-4">
                 <div class="card p-3">
-                    <h3 class="card-title">Understanding Mental Health</h3>
-                    <p class="card-text">Learn about the importance of mental health and how it impacts our daily lives.</p>
-                    <a href="#" class="btn btn-primary">Learn More</a>
+                    <h3 class="card-title">Online ChatBot</h3>
+                    <p class="card-text">Text with an online AI chatbot and it will respond with support on you mental health journey.</p>
+                    <a href="chatbot.html" class="btn custom-btn">Learn More</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card p-3">
                     <h3 class="card-title">Support Resources</h3>
                     <p class="card-text">Discover organizations and resources available to support your mental health journey.</p>
-                    <a href="#" class="btn btn-primary">Find Help</a>
+                    <a href="namoosh.html" class="btn custom-btn">Find Help</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card p-3">
                     <h3 class="card-title">Daily Journal</h3>
                     <p class="card-text">Log your daily experiences and reflect on your mental health journey.</p>
-                    <a href="journal.html" class="btn btn-primary">Start Journaling</a>
+                    <a href="journal.html" class="btn custom-btn">Start Journaling</a>
                 </div>
             </div>
         </section>
     </main>
-
+    <div class="text-end">
+        <button onclick="logOff()" class="btn btn-secondary">Log Off</button>
+    </div>    
     <footer>
         <div class="container">
-            <p>&copy; 2025 Mental Health Awareness. Pretty Cool Right?</p>
-            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            <p>Mental Health Awareness</p>
         </div>
     </footer>
 
-    <div class="chatbot">
-        <button class="chatbot-btn" onclick="toggleChat()">💬</button>
-        <div class="chat-window" id="chatWindow">
-            <div class="chat-header">AI Chatbot</div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Type your message...">
-                <button onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-    </div>
+    
 
     <script>
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (!loggedInUser) {
+            alert('Please log in first!');
+            window.location.href = 'login.html'; // Redirect to login page
+        }
+
+        // Display a welcome message
+        document.getElementById('welcomeMessage').textContent = `Welcome, ${loggedInUser}!`;
+
+        // Log off function
+        function logOff() {
+            localStorage.removeItem('loggedInUser'); // Clear the logged-in user
+            window.location.href = 'login.html'; // Redirect to login page
+        }
         function toggleChat() {
             const chatWindow = document.getElementById('chatWindow');
             chatWindow.style.display = chatWindow.style.display === 'block' ? 'none' : 'block';
@@ -183,6 +192,7 @@
             alert('Please log in first!');
             window.location.href = 'login.html';
         }
+        
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
