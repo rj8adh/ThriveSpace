@@ -36,3 +36,17 @@ def goodDayAI(userMessage: str):
     file.close()
 
     return aiResponse
+
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()  # Get data from the frontend
+    user_input = data.get('message')  # Extract message from the JSON
+    response = goodDayAI(user_input)  # Get backend response
+    return jsonify({"response": response})  # Send response back to frontend
+
+if __name__ == "__main__":
+    # os.makedirs("templates", exist_ok=True)
+    app.run(debug=True)

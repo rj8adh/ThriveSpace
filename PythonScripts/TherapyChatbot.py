@@ -1,4 +1,4 @@
-def Therapyify(userMessage: str):    
+def Therapyify(userMessage: str):
     import os
     from openai import OpenAI
     from dotenv import load_dotenv
@@ -33,3 +33,4 @@ def Therapyify(userMessage: str):
         json.dump(chatHistory, file)
     file.close()
     return therapistResponse
+print(Therapyify("I'm bored, please give me something to feel better"))
