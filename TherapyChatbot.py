@@ -33,5 +33,3 @@ def Therapyify(userMessage: str):
         json.dump(chatHistory, file)
     file.close()
     return therapistResponse
-
-print(Therapyify("I'm bored, do you have any ideas to cheer me up?"))
