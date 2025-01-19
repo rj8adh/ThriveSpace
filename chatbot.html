@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot - Mental Health Awareness</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-family: Arial, sans-serif;
+        }
+        .chat-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #0b9b5a;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .chat-messages {
+            height: 500px;
+            overflow-y: auto;
+            padding: 15px;
+            border-bottom: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        .chat-messages .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 75%;
+        }
+        .chat-messages .message.user {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+        .chat-messages .message.bot {
+            background-color: #f1f1f1;
+            color: #343a40;
+        }
+        .chat-input {
+            display: flex;
+            padding: 15px;
+        }
+        .chat-input input {
+            flex: 1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .back-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 15px;
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="window.location.href='education.html'">Back</button>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            Therapy Chatbot
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+
+        let conversationHistory = [
+            { role: 'system', content: 'You are a therapy chatbot on a mental health website. You\'re trying to convince the user that today was a good day by using strategies such as trying to elicit good things that happened. The message history will be given to you.' }
+        ];
+
+        async function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (userMessage) {
+                appendMessage(userMessage, 'user');
+                conversationHistory.push({ role: 'user', content: userMessage });
+
+                try {
+                    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer YOUR_API_KEY', // Replace with your API key
+                        },
+                        body: JSON.stringify({
+                            model: 'gpt-3.5-turbo',
+                            messages: conversationHistory
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('API Error Response:', errorText);
+                        throw new Error(`API Error: ${errorText}`);
+                    }
+
+                    const data = await response.json();
+                    const botReply = data.choices[0].message.content;
+                    conversationHistory.push({ role: 'assistant', content: botReply });
+                    appendMessage(botReply, 'bot');
+                } catch (error) {
+                    console.error('Error:', error);
+                    appendMessage(`Error: ${error.message}`, 'bot');
+                }
+
+                chatInput.value = '';
+            }
+        }
+
+        function appendMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', sender);
+            messageDiv.textContent = message;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
