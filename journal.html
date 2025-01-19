@@ -61,27 +61,20 @@
     <script>
         const form = document.getElementById('journalForm');
         const journalEntries = document.getElementById('journalEntries');
-        const counter = 0; 
         form.addEventListener('submit', function (event) {
             event.preventDefault();
             const entryText = document.getElementById('journalEntry').value.trim();
-            if(counter==0){
-                if (entryText) {
-                    counter += 1; 
-                    const entry = document.createElement('div');
-                    entry.classList.add('entry');
-                    const date = new Date();
-                    entry.innerHTML = `
-                        <div class="entry-date">${date.toDateString()} ${date.toLocaleTimeString()}</div>
-                        <div>${entryText}</div>
-                    `;
-                    
-                    journalEntries.appendChild(entry);
-                    document.getElementById('journalEntry').value = '';
-                }
-            }
-            else{
-                alert('You\'ve already submitted enough entries.');
+            if (entryText) {
+                const entry = document.createElement('div');
+                entry.classList.add('entry');
+                const date = new Date();
+                entry.innerHTML = `
+                    <div class="entry-date">${date.toDateString()} ${date.toLocaleTimeString()}</div>
+                    <div>${entryText}</div>
+                `;
+                
+                journalEntries.appendChild(entry);
+                document.getElementById('journalEntry').value = '';
             }
         });
     </script>
